@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" ng-app='app'>
+<head>
+	<meta charset="UTF-8">
+	<title>angular</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
+	<link rel="stylesheet" href="main.css">
+</head>
+<body>
+	<!--div ui-view></div-->
+	<div ng-controller='mainCtrl'>
+		<div class='container'>
+			<div class='row'>
+				<nav class='navbar' role='navigation'>
+					<ul class='nav navbar-nav'>
+						<li><a href="" ng-click="setCabinetVisible()"><i class='glyphicon glyphicon-home'></i> Мой кабинет</a></li>
+						<li><a href="" ng-click="setSearchVisible()"><i class='glyphicon glyphicon-search'></i> Страница поиска</a></li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+		<div class="container" ng-class="{'hide': !isVisibleSearch}">
+			<div class="row">
+				<form class='navbar-form navbar-left' role='search'>
+					<div class='form-group'>
+						<input type='text' class='form-control' placeholder='Ввести запрос: код ЕГРПОУ, ИНН, название контрагента' style='width: 405px' ng-model='whatFind'>
+					</div>
+					<button ng-click='getSearchSet(whatFind)' type='submit' class='btn btn-default'>Найти</button>
+				</form>				
+			</div>
+			<div class="row">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<td>ЕГРПОУ</td>
+							<td>Адрес</td>
+							<td>Предыдущий адрес</td>
+							<td>Название</td>
+							<td>Предыдущее название</td>
+							<td>Телефон</td>
+							<td>Директор</td>
+							<td>Сайт</td>
+							<td>inList</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat='record in search'>
+							<td>{{ record.okpo }}</td>
+							<td>{{ record.address }}</td>
+							<td>{{ record.old_address }}</td>
+							<td>{{ record.name }}</td>
+							<td>{{ record.old_name }}</td>
+							<td>{{ record.phone }}</td>
+							<td>{{ record.director }}</td>
+							<td>{{ record.site }}</td>
+							<td><button ng-click='addToCabinet(record.id)'>Добавить в кабинет</button></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="container" ng-class="{'hide': !isVisibleCabinet}">
+			<ul>
+				<li ng-repeat='saved in cabinetList'>
+					<p>ЕГРПОУ: {{ saved.okpo }}</p>
+					<p>Адрес: {{ saved.address }}</p>
+					<p>Предыдущий адрес: {{ saved.old_address }}</p>
+					<p>Название: {{ saved.name }}</p>
+					<p>Предыдущее название: {{ saved.old_name }}</p>
+					<p>Телефон: {{ saved.phone }}</p>
+					<p>Директор: {{ saved.director }}</p>
+					<p>Сайт: {{ saved.site }}</p>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.min.js'></script>
+	<script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-mocks.js'></script>
+	<script src='http://angular-ui.github.io/ui-router/release/angular-ui-router.js'></script>
+	<script src='jsonDb.js'></script>
+	<script src='main.js'></script>
+	<!--script src='backend.js'></script-->
+</body>
+</html>
